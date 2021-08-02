@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://appointments-app-u.herokuapp.com/api',
 };

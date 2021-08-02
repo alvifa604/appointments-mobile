@@ -1,0 +1,45 @@
+<ion-content>
+  <ion-header translucent>
+    <ion-toolbar>
+      <ion-title>Agende una cita</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <form
+    class="ion-margin-horizontal"
+    *ngIf="(medService.services$ | async) !== undefined"
+    style="margin-top: 20px"
+  >
+    <ion-item>
+      <ion-label position="floating"
+        >Cédula del paciente <ion-text color="danger">*</ion-text></ion-label
+      >
+      <ion-input required type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating"
+        >Fecha de la cita <ion-text color="danger">*</ion-text></ion-label
+      >
+      <ion-input required type="date"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Servicio <ion-text color="danger">*</ion-text></ion-label>
+      <ion-select value="undefined" multiple="false" placeholder="Seleccione">
+        <ion-select-option
+          *ngFor="let service of medService.services$ | async"
+          value="{{ service.id }}"
+          >{{ service.name }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-button
+      class="ion-margin-horizontal ion-margin-vertical"
+      color="dark"
+      fill="solid"
+      expand="block"
+      type="submit"
+    >
+      Agendar
+    </ion-button>
+  </form>
+</ion-content>

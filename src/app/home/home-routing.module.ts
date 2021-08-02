@@ -1,16 +1,43 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { HomePage } from './home.page';
+import { HomeComponent } from './home.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
+import { ServicesComponent } from './components/services/services.component';
+import { AppointmentsComponent } from './components/appointments/appointments.component';
+
 
 const routes: Routes = [
   {
     path: '',
-    component: HomePage,
-  }
+    component: HomeComponent,
+    children: [
+      {
+        path: '',
+        component: AppointmentsComponent,
+      },
+      {
+        path: 'schedule',
+        component: ScheduleComponent,
+      },
+      {
+        path: 'services',
+        component: ServicesComponent,
+      },
+      {
+        path: 'appointments',
+        component: AppointmentsComponent,
+      },
+      {
+        path: '**',
+        component: AppointmentsComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  imports: [CommonModule, RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class HomePageRoutingModule {}
+export class HomeRoutingModule {}

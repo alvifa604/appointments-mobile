@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()"> Volver </ion-button>
+    </ion-buttons>
+    <ion-title>Administrar cita</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header color="dark">
+      <ion-card-subtitle
+        >Hora: {{ appointment.date.split("T")[1] }}</ion-card-subtitle
+      >
+      <ion-card-title
+        >Fecha: {{ appointment.date.split("T")[0] }}</ion-card-title
+      >
+    </ion-card-header>
+
+    <ion-card-content style="margin-top: 10px">
+      <ion-list>
+        <ion-item>
+          <ion-label color="medium"
+            >Numero de cita:
+            <ion-text color="dark">
+              {{ appointment.id }}
+            </ion-text></ion-label
+          >
+        </ion-item>
+        <ion-item>
+          <ion-label color="medium"
+            >Paciente:
+            <ion-text color="dark">
+              {{ appointment.patientName }}
+            </ion-text></ion-label
+          >
+        </ion-item>
+        <ion-item>
+          <ion-label color="medium"
+            >Servicio:
+            <ion-text color="dark">
+              {{ appointment.service }}
+            </ion-text></ion-label
+          >
+        </ion-item>
+        <ion-item>
+          <ion-label color="medium"
+            >Cancelada:
+            <ion-text
+              color="{{ appointment.isCancelled ? 'danger' : 'success' }}"
+            >
+              {{ appointment.isCancelled ? "Sí" : "No" }}
+            </ion-text></ion-label
+          ><ion-select placeholder="Seleccione" [(ngModel)]="cancel">
+            <ion-select-option value="true">Sí</ion-select-option>
+            <ion-select-option value="false">No</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item *ngIf="(userService.user$ | async).role === 'doctor'">
+          <ion-label color="medium"
+            >Completada:
+            <ion-text
+              color="{{ appointment.isCompleted ? 'success' : 'danger' }}"
+            >
+              {{ appointment.isCompleted ? "Sí" : "No" }}
+            </ion-text></ion-label
+          ><ion-select placeholder="Seleccione" [(ngModel)]="complete">
+            <ion-select-option value="true">Sí</ion-select-option>
+            <ion-select-option value="false">No</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button
+          (click)="updateAppointment()"
+          color="dark"
+          expand="block"
+          fill="solid"
+        >
+          Actualizar
+        </ion-button>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

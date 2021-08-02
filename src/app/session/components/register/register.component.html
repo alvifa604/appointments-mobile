@@ -1,0 +1,172 @@
+<ion-content>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Regístrese</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div style="margin: 0rem 1.25rem">
+    <h1>Ingrese sus datos </h1>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <!-- Cédula o Dimex -->
+      <ion-item>
+        <ion-label position="floating"
+          >Cédula o DIMEX:<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required formControlName="idDocument" type="text"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="registerForm.get('idDocument').touched && !registerForm.get('idDocument').valid"
+        lines="none"
+      >
+        <ion-text color="danger" class="form-error">
+          Ingrese su nombre
+        </ion-text>
+      </ion-item>
+      <!-- Nombre -->
+      <ion-item>
+        <ion-label position="floating"
+          >Nombre:<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required formControlName="name" type="text"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="registerForm.get('name').touched && !registerForm.get('name').valid"
+        lines="none"
+      >
+        <ion-text color="danger" class="form-error">
+          Ingrese su nombre
+        </ion-text>
+      </ion-item>
+      <!-- Primer apellido -->
+      <ion-item>
+        <ion-label position="floating"
+          >Primer apellido:<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required formControlName="firstLastname" type="text"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="registerForm.get('firstLastname').touched && !registerForm.get('firstLastname').valid"
+        lines="none"
+      >
+        <ion-text color="danger" class="form-error">
+          Ingrese su primer apellido
+        </ion-text>
+      </ion-item>
+      <!-- Segundo apellido -->
+      <ion-item>
+        <ion-label position="floating"
+          >Segundo apelido:<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required formControlName="secondLastname" type="text"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="registerForm.get('secondLastname').touched && !registerForm.get('secondLastname').valid"
+        lines="none"
+      >
+        <ion-text color="danger" class="form-error">
+          Ingrese su segundo apellido
+        </ion-text>
+      </ion-item>
+      <!-- Fecha de nacimiento -->
+      <ion-item>
+        <ion-label position="floating"
+          >Fecha de nacimiento:<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required formControlName="birthDate" type="date"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="registerForm.get('birthDate').touched && !registerForm.get('birthDate').valid"
+        lines="none"
+      >
+        <ion-text color="danger" class="form-error">
+          Ingrese su fecha de nacimiento
+        </ion-text>
+      </ion-item>
+      <!-- Correo -->
+      <ion-item>
+        <ion-label position="floating"
+          >Correo electrónico:<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required formControlName="email" type="text"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="registerForm.get('email').touched && !registerForm.get('email').valid"
+        lines="none"
+      >
+        <ion-text color="danger" class="form-error">
+          Ingrese su correo
+        </ion-text>
+      </ion-item>
+      <!-- Teléfono -->
+      <ion-item>
+        <ion-label position="floating"
+          >Número telefónico:<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="registerForm.get('phoneNumber').touched && !registerForm.get('phoneNumber').valid"
+        lines="none"
+      >
+        <ion-text color="danger" class="form-error">
+          Ingrese su número de teléfono
+        </ion-text>
+      </ion-item>
+      <!-- Contraseña -->
+      <ion-item>
+        <ion-label position="floating"
+          >Contraseña:<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required formControlName="password" type="password"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="
+          registerForm.get('password').touched && !registerForm.get('password').valid
+        "
+        lines="none"
+      >
+        <ion-text color="danger" class="form-error">
+          Ingrese una constreña válida
+        </ion-text>
+      </ion-item>
+      <!-- Reingreso de contraseña -->
+      <ion-item>
+        <ion-label position="floating"
+          >Confirme su contraseña:<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required formControlName="password2" type="password"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="
+        registerForm.get('password2').touched &&
+          registerForm.get('password2').value !== registerForm.get('password').value
+        "
+        lines="none"
+      >
+        <ion-text color="danger" class="form-error">
+          Las contraseñas no son iguales
+        </ion-text>
+      </ion-item>
+
+      <ion-button
+        class="ion-margin-vertical"
+        expand="block"
+        color="danger"
+        fill="solid"
+        type="submit"
+        [disabled]="!registerForm.valid"
+      >
+        Registrar
+      </ion-button>
+
+      <ion-button expand="block" fill="solid" color="dark" [routerLink]="['/session/login']" >
+        Ingresar
+      </ion-button>
+    </form>
+    <ion-item class="ion-margin-vertical" *ngIf="authService.error$ | async" lines="none">
+      <ion-text color="danger" class="form-error">
+        {{ authService.error$ | async }}
+      </ion-text>
+    </ion-item>
+  </div>
+</ion-content>

@@ -1,0 +1,85 @@
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Jale para recargar"
+      refreshingSpinner="circles"
+      refreshingText="Cargando..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-header translucent>
+    <ion-toolbar>
+      <ion-title>Sus citas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-text
+      class="ion-text-center"
+      color="dark"
+      *ngIf="(appointments$ | async) === undefined"
+    >
+      <h1>No posee citas</h1>
+    </ion-text>
+    <ng-container *ngIf="appointments$ | async">
+      <ion-item *ngFor="let appointment of appointments$ | async">
+        <ion-card style="width: 100%">
+          <ion-card-header color="dark">
+            <ion-card-subtitle
+              >Hora: {{ appointment.date.split("T")[1] }}</ion-card-subtitle
+            >
+            <ion-card-title
+              >Fecha: {{ appointment.date.split("T")[0] }}</ion-card-title
+            >
+          </ion-card-header>
+
+          <ion-card-content style="margin-top: 10px">
+            <ion-label color="medium"
+              >Numero de cita:
+              <ion-text color="dark">
+                {{ appointment.id }}
+              </ion-text></ion-label
+            >
+            <ion-label color="medium"
+              >Paciente:
+              <ion-text color="dark">
+                {{ appointment.patientName }}
+              </ion-text></ion-label
+            >
+            <ion-label color="medium"
+              >Servicio:
+              <ion-text color="dark">
+                {{ appointment.service }}
+              </ion-text></ion-label
+            >
+            <ion-label color="medium"
+              >Cancelada:
+              <ion-text
+                color="{{ appointment.isCancelled ? 'danger' : 'success' }}"
+              >
+                {{ appointment.isCancelled ? "Sí" : "No" }}
+              </ion-text></ion-label
+            >
+            <ion-label color="medium"
+              >Completada:
+              <ion-text
+                color="{{ appointment.isCompleted ? 'success' : 'danger' }}"
+              >
+                {{ appointment.isCompleted ? "Sí" : "No" }}
+              </ion-text></ion-label
+            >
+            <ion-button
+              color="dark"
+              expand="block"
+              fill="clear"
+              (click)="manageAppointment(appointment)"
+            >
+              Administrar
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+</ion-content>

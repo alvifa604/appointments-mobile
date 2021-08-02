@@ -2,18 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { HomePage } from './home.page';
 
-import { HomePageRoutingModule } from './home-routing.module';
-
+import { HomeComponent } from './home.component';
+import { HomeRoutingModule } from './home-routing.module';
+import { ScheduleComponent } from './components/schedule/schedule.component';
+import { AppointmentsComponent } from './components/appointments/appointments.component';
+import { ManageAppointmentModalComponent } from './components/appointments/manage-appointment-modal/manage-appointment-modal.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    HomePageRoutingModule
+  declarations: [
+    HomeComponent,
+    ScheduleComponent,
+    AppointmentsComponent,
+    ManageAppointmentModalComponent,
   ],
-  declarations: [HomePage]
+  imports: [CommonModule, IonicModule, FormsModule, HomeRoutingModule],
+  providers: [],
 })
-export class HomePageModule {}
+export class HomeModule {}
