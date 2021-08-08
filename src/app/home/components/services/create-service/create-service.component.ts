@@ -5,7 +5,6 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { AlertController } from '@ionic/angular';
 import { Subscription, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MedicalServicesService } from 'src/app/home/services/medical-services.service';

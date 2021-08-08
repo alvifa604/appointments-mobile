@@ -7,7 +7,6 @@ import { Appointment } from 'src/app/home/models/Appointment';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { AppointmentCreate } from '../models/AppointmentCreate';
-import { AppointmentEdit } from '../models/AppointmentEdit';
 
 @Injectable({
   providedIn: 'root',

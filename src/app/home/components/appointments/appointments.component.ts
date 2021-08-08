@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { Appointment } from 'src/app/home/models/Appointment';
 import { AuthService } from 'src/app/shared/services/auth.service';

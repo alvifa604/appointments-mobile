@@ -2,8 +2,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import {
-  AlertController,
-  LoadingController,
   ToastController,
 } from '@ionic/angular';
 import { Observable, Subscription, throwError } from 'rxjs';

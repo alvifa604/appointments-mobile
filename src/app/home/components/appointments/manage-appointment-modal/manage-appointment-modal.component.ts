@@ -1,9 +1,8 @@
 /* eslint-disable curly */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Subscription, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AppointmentEdit } from 'src/app/home/models/AppointmentEdit';
 import { AppointmentsService } from 'src/app/home/services/appointments.service';
 import { Appointment } from 'src/app/home/models/Appointment';
 import { UserService } from 'src/app/shared/services/user.service';

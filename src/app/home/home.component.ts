@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
-import { Appointment } from './models/Appointment';
 import { User } from '../shared/models/User';
 import { AuthService } from '../shared/services/auth.service';
 import { UserService } from '../shared/services/user.service';
