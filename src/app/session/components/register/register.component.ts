@@ -22,7 +22,6 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.minLength(9),
         Validators.maxLength(12),
-        Validators.pattern('^[0-9]+$'),
       ]),
     ],
     name: [

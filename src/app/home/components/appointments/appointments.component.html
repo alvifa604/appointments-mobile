@@ -1,36 +1,42 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Sus citas</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="chevron-down-circle-outline"
-      pullingText="Jale para recargar"
+      pullingText="Suelte para recargar"
       refreshingSpinner="circles"
       refreshingText="Cargando..."
     >
     </ion-refresher-content>
   </ion-refresher>
-  <ion-header translucent>
-    <ion-toolbar>
-      <ion-title>Sus citas</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
   <ion-list>
+     <ion-text *ngIf="(appointments$ | async) && (userSerivce.user$ | async)" color="dark" class="ion-text-center">
+      <h1>Bienvenido, {{(userSerivce.user$ | async).name}} {{(userSerivce.user$ | async).firstLastname}}</h1>
+    </ion-text>
+
     <ion-text
       class="ion-text-center"
       color="dark"
-      *ngIf="(appointments$ | async) === undefined"
+      *ngIf="
+        (appointments$ | async) === undefined ||
+        (appointments$ | async).length === 0
+      "
     >
-      <h1>No posee citas</h1>
+      <h3>No posee citas</h3>
     </ion-text>
-    <ng-container *ngIf="appointments$ | async">
+    <ng-container
+      *ngIf="(appointments$ | async) && (userSerivce.user$ | async)"
+    >
       <ion-item *ngFor="let appointment of appointments$ | async">
         <ion-card style="width: 100%">
           <ion-card-header color="dark">
             <ion-card-subtitle
-              >Hora: {{ appointment.date.split("T")[1] }}</ion-card-subtitle
-            >
-            <ion-card-title
-              >Fecha: {{ appointment.date.split("T")[0] }}</ion-card-title
+              >Fecha: {{ appointment.date.toLocaleString() }}</ion-card-subtitle
             >
           </ion-card-header>
 
@@ -61,7 +67,9 @@
                 {{ appointment.isCancelled ? "Sí" : "No" }}
               </ion-text></ion-label
             >
-            <ion-label color="medium"
+            <ion-label
+              *ngIf="(userSerivce.user$ | async).role === 'doctor'"
+              color="medium"
               >Completada:
               <ion-text
                 color="{{ appointment.isCompleted ? 'success' : 'danger' }}"

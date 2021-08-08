@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { Observable } from 'rxjs';
 import { AuthGuard } from './shared/guards/auth-guard.guard';
-import { Appointment } from './shared/models/Appointment';
 
 const routes: Routes = [
   {

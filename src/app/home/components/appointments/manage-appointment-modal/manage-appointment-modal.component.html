@@ -6,15 +6,11 @@
     <ion-title>Administrar cita</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-card>
     <ion-card-header color="dark">
-      <ion-card-subtitle
-        >Hora: {{ appointment.date.split("T")[1] }}</ion-card-subtitle
-      >
       <ion-card-title
-        >Fecha: {{ appointment.date.split("T")[0] }}</ion-card-title
+        >Fecha: {{ appointment.date.toLocaleString() }}</ion-card-title
       >
     </ion-card-header>
 

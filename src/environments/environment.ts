@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiWebUrl: 'https://localhost:5001/api',
-  apiURl: 'https://2079e01d977d.ngrok.io/api',
+  //apiWebUrl: 'https://localhost:5001/api',
+  apiURl: 'https://appointments-app-u.herokuapp.com/api',
+  //apiURl: 'https://d25ef1a09876.ngrok.io/api',
   tokenKey: 'token',
 };
 

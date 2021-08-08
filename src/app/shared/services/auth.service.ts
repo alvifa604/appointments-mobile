@@ -1,13 +1,9 @@
+/* eslint-disable curly */
 /* eslint-disable @typescript-eslint/member-ordering */
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { BehaviorSubject, from, Observable, throwError } from 'rxjs';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { Login } from '../models/Login';
@@ -16,6 +12,8 @@ import { Register } from '../models/Register';
 import { UserService } from './user.service';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { Token } from '../models/Token';
+import { UtilitiesServicesService } from './utilities-services.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +22,11 @@ export class AuthService {
   private error = new BehaviorSubject<string>('');
 
   public token: string;
+  public decodedToken: Token;
   public error$ = this.error.asObservable();
 
   constructor(
+    private utilitiesService: UtilitiesServicesService,
     private http: HttpClient,
     private router: Router,
     private userService: UserService,
@@ -59,7 +59,6 @@ export class AuthService {
       .pipe(
         map((user) => {
           this.userService.setUser(user);
-          console.log(user.name);
           this.saveToken(user.token);
           this.error.next(null);
           return user;
@@ -72,30 +71,34 @@ export class AuthService {
   }
 
   public async logOut() {
+    this.userService.setUser(undefined);
     await this.storage.remove(environment.tokenKey);
     this.router.navigate(['session']);
   }
 
   //Obtiene el usuario con el token que el usuario genera en el login
   //Persiste el login en caso de recarga de página
-  async loadToken() {
+  async loadToken(): Promise<void> {
     const token = await this.storage.get(environment.tokenKey);
     this.token = token;
+    const decodedToken: Token = this.parseJwt(this.token);
 
-    if (token) {
-      console.log('token existe');
+    if (decodedToken === undefined || decodedToken === null) return;
+
+    if (decodedToken.exp > Date.now() / 1000) {
       this.userService.setIsLogged(true);
       this.router.navigate(['home']);
     } else {
+      this.utilitiesService.presentOkAlert(
+        'Advertencia',
+        'La sesión ha expirado, inicie sesión.'
+      );
       this.userService.setIsLogged(false);
     }
   }
 
-  async setHeaders() {
-    await this.loadToken();
-  }
-
   async saveToken(token: string) {
+    this.token = token;
     await this.storage.set(environment.tokenKey, token);
   }
 
@@ -107,7 +110,6 @@ export class AuthService {
       .pipe(
         map((user) => {
           this.userService.setUser(user);
-          console.log(user);
           this.saveToken(user.token);
           return user;
         }),
@@ -117,4 +119,12 @@ export class AuthService {
         })
       );
   }
+
+  private parseJwt = (token) => {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      return null;
+    }
+  };
 }

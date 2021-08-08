@@ -1,39 +1,47 @@
 <ion-content>
-  <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="schedule">
-        <ion-icon name="add-outline"></ion-icon>
-        <ion-label>Agendar cita</ion-label>
-      </ion-tab-button>
-
-      <ion-tab-button tab="appointments">
-        <ion-icon name="calendar-outline"></ion-icon>
-        <ion-label>Ver citas</ion-label>
-        <ion-badge *ngIf="appointmentsService.appointments$ | async">{{
-          (appointmentsService.appointments$ | async).length
-        }}</ion-badge>
-        <ion-badge
-          *ngIf="(appointmentsService.appointments$ | async) === undefined"
-          >{{ 0 }}</ion-badge
-        >
-      </ion-tab-button>
-
-      <ng-container *ngIf="user | async">
-        <ion-tab-button tab="services" *ngIf="(user | async).role === 'doctor'">
-          <ion-icon name="medical-outline"></ion-icon>
-          <ion-label>Servicios</ion-label>
+  <ng-container *ngIf="loading; else elseTemplate">
+    <h1>cargando</h1></ng-container
+  >
+  <ng-template #elseTemplate>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="schedule">
+          <ion-icon name="add-outline"></ion-icon>
+          <ion-label>Agendar cita</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="roles" *ngIf="(user | async).role === 'doctor'">
-          <ion-icon name="people-outline"></ion-icon>
-          <ion-label>Roles</ion-label>
+        <ion-tab-button tab="appointments">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <ion-label>Ver citas</ion-label>
+          <ion-badge *ngIf="appointmentsService.appointments$ | async">{{
+            (appointmentsService.appointments$ | async).length
+          }}</ion-badge>
+          <ion-badge
+            *ngIf="(appointmentsService.appointments$ | async) === undefined"
+            >0</ion-badge
+          >
         </ion-tab-button>
-      </ng-container>
 
-      <ion-tab-button tab="account" (click)="logout()">
-        <ion-icon name="person-outline"></ion-icon>
-        <ion-label>Mi cuenta</ion-label>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+        <ng-container *ngIf="user | async">
+          <ion-tab-button
+            tab="services"
+            *ngIf="(user | async).role === 'doctor'"
+          >
+            <ion-icon name="medical-outline"></ion-icon>
+            <ion-label>Servicios</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button tab="roles" *ngIf="(user | async).role === 'doctor'">
+            <ion-icon name="people-outline"></ion-icon>
+            <ion-label>Roles</ion-label>
+          </ion-tab-button>
+        </ng-container>
+
+        <ion-tab-button tab="account" (click)="logoutAlert()">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Salir</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ng-template>
 </ion-content>

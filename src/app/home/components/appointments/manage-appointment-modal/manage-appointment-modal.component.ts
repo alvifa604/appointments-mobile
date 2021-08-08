@@ -1,11 +1,13 @@
 /* eslint-disable curly */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AppointmentEdit } from 'src/app/home/models/AppointmentEdit';
 import { AppointmentsService } from 'src/app/home/services/appointments.service';
-import { Appointment } from 'src/app/shared/models/Appointment';
+import { Appointment } from 'src/app/home/models/Appointment';
 import { UserService } from 'src/app/shared/services/user.service';
+import { UtilitiesServicesService } from 'src/app/shared/services/utilities-services.service';
 
 @Component({
   selector: 'app-manage-appointment-modal',
@@ -22,51 +24,41 @@ export class ManageAppointmentModalComponent implements OnInit, OnDestroy {
   constructor(
     public userService: UserService,
     private modalController: ModalController,
-    private alertController: AlertController,
-    private appointmenstService: AppointmentsService
+    private appointmenstService: AppointmentsService,
+    private utilitiesService: UtilitiesServicesService
   ) {}
   ngOnDestroy(): void {
-    this.appointmentSubscription.unsubscribe();
-  }
-
-  ngOnInit() {
-    console.log(this.appointment);
-  }
-
-  public updateAppointment() {
-    if (this.cancel === undefined && this.complete === undefined) {
-      this.presentAlert();
-      return;
+    if (this.appointmentSubscription !== undefined) {
+      this.appointmentSubscription.unsubscribe();
     }
-
-    const cancel = this.cancel === 'true' ? true : false;
-    const complete = this.complete === 'true' ? true : false;
-
-    const edit: AppointmentEdit = {
-      appointmentId: this.appointment.id,
-      canceled: cancel,
-      completed: complete,
-    };
-
-    this.appointmentSubscription = this.appointmenstService
-      .updateAppointment(edit)
-      .subscribe();
-
-    this.modalController.dismiss();
   }
+
+  ngOnInit() {}
 
   public closeModal() {
     this.modalController.dismiss();
   }
 
-  private async presentAlert() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Advertencia',
-      message: 'Debe editar al menos un campo',
-      buttons: ['OK'],
-    });
+  public updateAppointment() {
+    this.utilitiesService.presentLoading('Actualizando');
 
-    await alert.present();
+    if (this.cancel === undefined && this.complete === undefined) {
+      this.utilitiesService.presentOkAlert(
+        'Advertencia',
+        'Debe editar al menos un campo'
+      );
+      return;
+    }
+
+    const canceled = this.cancel === 'true' ? true : false;
+    const completed = this.complete === 'true' ? true : false;
+
+    this.appointmentSubscription = this.appointmenstService
+      .updateAppointment(this.appointment.id, canceled, completed)
+      .pipe(catchError((error) => throwError(error)))
+      .subscribe(() => {
+        this.utilitiesService.loadingController.dismiss();
+        this.modalController.dismiss();
+      });
   }
 }

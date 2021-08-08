@@ -3,7 +3,7 @@ export interface Appointment {
   patientId: string;
   patientName: string;
   service: string;
-  date: string;
+  date: Date;
   isCancelled: boolean;
   isCompleted: boolean;
 }

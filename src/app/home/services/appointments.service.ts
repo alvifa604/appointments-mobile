@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { Appointment } from 'src/app/shared/models/Appointment';
+import { BehaviorSubject, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Appointment } from 'src/app/home/models/Appointment';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { UserService } from 'src/app/shared/services/user.service';
 import { environment } from 'src/environments/environment';
+import { AppointmentCreate } from '../models/AppointmentCreate';
 import { AppointmentEdit } from '../models/AppointmentEdit';
 
 @Injectable({
@@ -28,28 +28,57 @@ export class AppointmentsService {
       })
       .pipe(
         map((appointments) => {
+          appointments.forEach((app) => {
+            app.date = new Date(app.date + 'Z');
+          });
           this.appointments.next(appointments);
         }),
         catchError((error: HttpErrorResponse) => {
           this.error.next(error.error);
-          return throwError(error.message);
+          return throwError(error);
         })
       );
   }
 
-  public createAppoinment() {}
-
-  public updateAppointment(edit: AppointmentEdit) {
-    console.log(edit);
+  public createAppoinment(newAppointment: AppointmentCreate) {
     return this.http
-      .put(`${environment.apiURl}/appointments`, edit, {
+      .post<Appointment>(`${environment.apiURl}/appointments`, newAppointment, {
         headers: { authorization: `Bearer ${this.authService.token}` },
       })
+      .pipe(
+        tap((newA) => {
+          newA.date = new Date(newA.date);
+          this.appointments.next([...this.appointments.getValue(), newA]);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.error.next(error.error);
+          return throwError(error);
+        })
+      );
+  }
+
+  public updateAppointment(
+    appointmentId: number,
+    canceled: boolean,
+    completed: boolean
+  ) {
+    return this.http
+      .patch<Appointment>(
+        `${environment.apiURl}/appointments`,
+        { appointmentId, canceled, completed },
+        {
+          headers: { authorization: `Bearer ${this.authService.token}` },
+        }
+      )
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.error.next(error.error);
           return throwError(error);
         })
       );
+  }
+
+  public clearErrors(): void {
+    this.error.next(undefined);
   }
 }

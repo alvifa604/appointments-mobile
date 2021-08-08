@@ -1,3 +1,56 @@
-<p>
-  services works!
-</p>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Servicios médicos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Jale para recargar"
+      refreshingSpinner="circles"
+      refreshingText="Cargando..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-button
+    color="{{ showCreate ? 'danger' : 'dark' }}"
+    style="margin-top: 1.25rem"
+    (click)="toggleCreate()"
+    expand="block"
+    fill="solid"
+  >
+    {{ showCreate ? "Cerrar" : "Crear servicio" }}
+  </ion-button>
+  <app-create-service
+    (closeFormEvent)="toggleCreate()"
+    *ngIf="showCreate"
+  ></app-create-service>
+
+  <ion-list>
+    <ion-item *ngFor="let service of medicalServicesS.services$ | async">
+      <ion-card style="width: 100%">
+        <ion-card-header>
+          <ion-card-title>Código: {{ service.id }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content style="font-size: 1rem">
+          <ion-label>Servicio: {{ service.name }}</ion-label>
+          <ion-buttons style="display: flex; justify-content: space-around">
+            <ion-button
+              style="font-size: 1rem"
+              (click)="deleteAlert(service.id)"
+            >
+              <ion-icon
+                colo="danger"
+                style="color: red"
+                name="trash-outline"
+              ></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,38 +1,130 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Agende una cita</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <ion-header translucent>
-    <ion-toolbar>
-      <ion-title>Agende una cita</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <form
-    class="ion-margin-horizontal"
-    *ngIf="(medService.services$ | async) !== undefined"
-    style="margin-top: 20px"
+  <ion-text
+    *ngIf="(medicalServicesS.services$ | async).length === 0"
+    class="ion-text-center"
+    color="danger"
   >
+    <h1 style="margin: 1.875rem 1.875rem">
+      No hay servicios registrados, no se puede agendar cita
+    </h1>
+    <h4>Consulte al centro médico</h4>
+  </ion-text>
+  <form
+    *ngIf="(medicalServicesS.services$ | async).length !== 0"
+    [formGroup]="appointmentForm"
+    class="ion-margin-horizontal"
+    style="margin-top: 1.25rem"
+    (ngSubmit)="schedule()"
+  >
+    <ion-item class="ion-margin-vertical">
+      <ion-text class="ion-text-center" style="font-size: 1.25rem"
+        >Las citas se agendan con una semana de anticipación</ion-text
+      >
+    </ion-item>
+    <!-- Cedula -->
     <ion-item>
-      <ion-label position="floating"
+      <ion-label
         >Cédula del paciente <ion-text color="danger">*</ion-text></ion-label
       >
-      <ion-input required type="number"></ion-input>
+      <ion-input
+        placeholder="102340456"
+        formControlName="idDocument"
+        required
+        type="text"
+      ></ion-input>
     </ion-item>
+    <ion-item
+      *ngIf="
+        appointmentForm.get('idDocument').touched &&
+        !appointmentForm.get('idDocument').valid
+      "
+      lines="none"
+    >
+      <ion-text color="danger" class="form-error">
+        Ingrese su cédula
+      </ion-text></ion-item
+    >
+    <!-- Fecha -->
     <ion-item>
-      <ion-label position="floating"
-        >Fecha de la cita <ion-text color="danger">*</ion-text></ion-label
+      <ion-label>Fecha <ion-text color="danger">*</ion-text></ion-label>
+      <ion-datetime
+        min="2021"
+        max="2025"
+        formControlName="date"
+        display-format="YYYY-MM-DD"
       >
-      <ion-input required type="date"></ion-input>
+      </ion-datetime>
     </ion-item>
+    <ion-item
+      *ngIf="
+        appointmentForm.get('date').touched &&
+        !appointmentForm.get('date').valid
+      "
+      lines="none"
+    >
+      <ion-text color="danger" class="form-error">
+        Ingrese la fecha
+      </ion-text></ion-item
+    >
+    <!-- Hora -->
+    <ion-item>
+      <ion-label>Hora <ion-text color="danger">*</ion-text></ion-label>
+      <ion-datetime
+        formControlName="time"
+        display-format="HH:mm"
+        minuteValues="0,30"
+        min="09:00"
+        max="18:00"
+      >
+      </ion-datetime>
+    </ion-item>
+    <ion-item
+      *ngIf="
+        appointmentForm.get('time').touched &&
+        !appointmentForm.get('time').valid
+      "
+      lines="none"
+    >
+      <ion-text color="danger" class="form-error">
+        Ingrese la hora
+      </ion-text></ion-item
+    >
+
+    <!-- Servicio -->
     <ion-item>
       <ion-label>Servicio <ion-text color="danger">*</ion-text></ion-label>
-      <ion-select value="undefined" multiple="false" placeholder="Seleccione">
+      <ion-select
+        formControlName="service"
+        value="undefined"
+        multiple="false"
+        placeholder="Seleccione"
+      >
         <ion-select-option
-          *ngFor="let service of medService.services$ | async"
+          *ngFor="let service of medicalServicesS.services$ | async"
           value="{{ service.id }}"
           >{{ service.name }}</ion-select-option
         >
       </ion-select>
     </ion-item>
+    <ion-item
+      *ngIf="
+        appointmentForm.get('service').touched &&
+        !appointmentForm.get('service').valid
+      "
+      lines="none"
+    >
+      <ion-text color="danger" class="form-error">
+        Seleccione un servicio
+      </ion-text></ion-item
+    >
+
     <ion-button
+      [disabled]="!appointmentForm.valid && !appointmentForm.dirty"
       class="ion-margin-horizontal ion-margin-vertical"
       color="dark"
       fill="solid"
@@ -42,4 +134,13 @@
       Agendar
     </ion-button>
   </form>
+  <ion-item
+    class="ion-margin-vertical"
+    *ngIf="appointmentService.error$ | async"
+    lines="none"
+  >
+    <ion-text color="danger" class="form-error">
+      {{ appointmentService.error$ | async }}
+    </ion-text>
+  </ion-item>
 </ion-content>

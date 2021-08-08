@@ -5,17 +5,24 @@
     </ion-toolbar>
   </ion-header>
   <div style="margin: 0rem 1.25rem">
-    <h1>Ingrese sus datos </h1>
+    <h1>Ingrese sus datos</h1>
     <form [formGroup]="registerForm" (ngSubmit)="register()">
       <!-- Cédula o Dimex -->
       <ion-item>
         <ion-label position="floating"
           >Cédula o DIMEX:<ion-text color="danger">*</ion-text></ion-label
         >
-        <ion-input required formControlName="idDocument" type="text"></ion-input>
+        <ion-input
+          required
+          formControlName="idDocument"
+          type="text"
+        ></ion-input>
       </ion-item>
       <ion-item
-        *ngIf="registerForm.get('idDocument').touched && !registerForm.get('idDocument').valid"
+        *ngIf="
+          registerForm.get('idDocument').touched &&
+          !registerForm.get('idDocument').valid
+        "
         lines="none"
       >
         <ion-text color="danger" class="form-error">
@@ -30,7 +37,9 @@
         <ion-input required formControlName="name" type="text"></ion-input>
       </ion-item>
       <ion-item
-        *ngIf="registerForm.get('name').touched && !registerForm.get('name').valid"
+        *ngIf="
+          registerForm.get('name').touched && !registerForm.get('name').valid
+        "
         lines="none"
       >
         <ion-text color="danger" class="form-error">
@@ -42,10 +51,17 @@
         <ion-label position="floating"
           >Primer apellido:<ion-text color="danger">*</ion-text></ion-label
         >
-        <ion-input required formControlName="firstLastname" type="text"></ion-input>
+        <ion-input
+          required
+          formControlName="firstLastname"
+          type="text"
+        ></ion-input>
       </ion-item>
       <ion-item
-        *ngIf="registerForm.get('firstLastname').touched && !registerForm.get('firstLastname').valid"
+        *ngIf="
+          registerForm.get('firstLastname').touched &&
+          !registerForm.get('firstLastname').valid
+        "
         lines="none"
       >
         <ion-text color="danger" class="form-error">
@@ -57,10 +73,17 @@
         <ion-label position="floating"
           >Segundo apelido:<ion-text color="danger">*</ion-text></ion-label
         >
-        <ion-input required formControlName="secondLastname" type="text"></ion-input>
+        <ion-input
+          required
+          formControlName="secondLastname"
+          type="text"
+        ></ion-input>
       </ion-item>
       <ion-item
-        *ngIf="registerForm.get('secondLastname').touched && !registerForm.get('secondLastname').valid"
+        *ngIf="
+          registerForm.get('secondLastname').touched &&
+          !registerForm.get('secondLastname').valid
+        "
         lines="none"
       >
         <ion-text color="danger" class="form-error">
@@ -75,7 +98,10 @@
         <ion-input required formControlName="birthDate" type="date"></ion-input>
       </ion-item>
       <ion-item
-        *ngIf="registerForm.get('birthDate').touched && !registerForm.get('birthDate').valid"
+        *ngIf="
+          registerForm.get('birthDate').touched &&
+          !registerForm.get('birthDate').valid
+        "
         lines="none"
       >
         <ion-text color="danger" class="form-error">
@@ -90,7 +116,9 @@
         <ion-input required formControlName="email" type="text"></ion-input>
       </ion-item>
       <ion-item
-        *ngIf="registerForm.get('email').touched && !registerForm.get('email').valid"
+        *ngIf="
+          registerForm.get('email').touched && !registerForm.get('email').valid
+        "
         lines="none"
       >
         <ion-text color="danger" class="form-error">
@@ -102,10 +130,17 @@
         <ion-label position="floating"
           >Número telefónico:<ion-text color="danger">*</ion-text></ion-label
         >
-        <ion-input required formControlName="phoneNumber" type="tel"></ion-input>
+        <ion-input
+          required
+          formControlName="phoneNumber"
+          type="tel"
+        ></ion-input>
       </ion-item>
       <ion-item
-        *ngIf="registerForm.get('phoneNumber').touched && !registerForm.get('phoneNumber').valid"
+        *ngIf="
+          registerForm.get('phoneNumber').touched &&
+          !registerForm.get('phoneNumber').valid
+        "
         lines="none"
       >
         <ion-text color="danger" class="form-error">
@@ -117,11 +152,16 @@
         <ion-label position="floating"
           >Contraseña:<ion-text color="danger">*</ion-text></ion-label
         >
-        <ion-input required formControlName="password" type="password"></ion-input>
+        <ion-input
+          required
+          formControlName="password"
+          type="password"
+        ></ion-input>
       </ion-item>
       <ion-item
         *ngIf="
-          registerForm.get('password').touched && !registerForm.get('password').valid
+          registerForm.get('password').touched &&
+          !registerForm.get('password').valid
         "
         lines="none"
       >
@@ -132,14 +172,21 @@
       <!-- Reingreso de contraseña -->
       <ion-item>
         <ion-label position="floating"
-          >Confirme su contraseña:<ion-text color="danger">*</ion-text></ion-label
+          >Confirme su contraseña:<ion-text color="danger"
+            >*</ion-text
+          ></ion-label
         >
-        <ion-input required formControlName="password2" type="password"></ion-input>
+        <ion-input
+          required
+          formControlName="password2"
+          type="password"
+        ></ion-input>
       </ion-item>
       <ion-item
         *ngIf="
-        registerForm.get('password2').touched &&
-          registerForm.get('password2').value !== registerForm.get('password').value
+          registerForm.get('password2').touched &&
+          registerForm.get('password2').value !==
+            registerForm.get('password').value
         "
         lines="none"
       >
@@ -148,10 +195,18 @@
         </ion-text>
       </ion-item>
 
+      <div style="margin: 1rem 0rem; text-align: justify;">
+        <ion-text color="dark" style="width: 100%;">
+          <ion-label style="font-weight: bold">Información: </ion-label>
+          La contraseña debe incluir al menos una mayúscula, un número, un caracter
+          especial (#?!@$%^&*-), y tener una longitud entre 8 y 16 caracteres
+        </ion-text>
+      </div>
+
       <ion-button
         class="ion-margin-vertical"
         expand="block"
-        color="danger"
+        color="primary"
         fill="solid"
         type="submit"
         [disabled]="!registerForm.valid"
@@ -159,11 +214,20 @@
         Registrar
       </ion-button>
 
-      <ion-button expand="block" fill="solid" color="dark" [routerLink]="['/session/login']" >
+      <ion-button
+        expand="block"
+        fill="solid"
+        color="dark"
+        [routerLink]="['/session/login']"
+      >
         Ingresar
       </ion-button>
     </form>
-    <ion-item class="ion-margin-vertical" *ngIf="authService.error$ | async" lines="none">
+    <ion-item
+      class="ion-margin-vertical"
+      *ngIf="authService.error$ | async"
+      lines="none"
+    >
       <ion-text color="danger" class="form-error">
         {{ authService.error$ | async }}
       </ion-text>

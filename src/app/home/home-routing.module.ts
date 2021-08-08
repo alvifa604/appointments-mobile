@@ -5,7 +5,7 @@ import { HomeComponent } from './home.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ServicesComponent } from './components/services/services.component';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
-
+import { RolesComponent } from './components/roles/roles.component';
 
 const routes: Routes = [
   {
@@ -15,6 +15,7 @@ const routes: Routes = [
       {
         path: '',
         component: AppointmentsComponent,
+        redirectTo: 'appointments',
       },
       {
         path: 'schedule',
@@ -29,8 +30,13 @@ const routes: Routes = [
         component: AppointmentsComponent,
       },
       {
+        path: 'roles',
+        component: RolesComponent,
+      },
+      {
         path: '**',
         component: AppointmentsComponent,
+        redirectTo: 'appointments',
       },
     ],
   },

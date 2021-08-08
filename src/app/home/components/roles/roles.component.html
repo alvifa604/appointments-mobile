@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Modificar roles de usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-toolbar>
+    <ion-item style="margin-top: 1.25rem">
+      <ion-item>
+        <ion-label position="floating">Ingrese la cédula del usuario</ion-label>
+        <ion-input
+          [(ngModel)]="idDocument"
+          required
+          placeholder="Cédula"
+          type="number"
+        ></ion-input>
+      </ion-item>
+      <ion-button
+        style="margin: 0 auto; height: 70%"
+        color="dark"
+        expand="full"
+        (click)="getProfile()"
+        ><ion-icon
+          style="padding: 1rem"
+          slot="icon-only"
+          name="search-outline"
+        ></ion-icon
+      ></ion-button>
+    </ion-item>
+  </ion-toolbar>
+
+  <ion-text
+    *ngIf="userService.error$"
+    class="ion-text-center"
+    color="danger"
+  >
+    <h3>{{ userService.error$ | async }}</h3>
+  </ion-text>
+
+  <ion-card
+    style="margin-top: 1.25rem"
+    *ngIf="
+      (this.userService.othersProfile$ | async) && (rolesService.roles$ | async)
+    "
+  >
+    <ion-card-header>
+      <ion-card-subtitle
+        >Cédula:
+        {{
+          (this.userService.othersProfile$ | async).idDocument
+        }}</ion-card-subtitle
+      >
+      <ion-card-title
+        >Nombre: {{ (this.userService.othersProfile$ | async).name }}
+        {{ (this.userService.othersProfile$ | async).firstLastname }}
+        {{
+          (this.userService.othersProfile$ | async).secondLastname
+        }}</ion-card-title
+      >
+    </ion-card-header>
+    <ion-card-content class="f-size">
+      <ion-item [formGroup]="roleForm">
+        <ion-label>Rol: </ion-label>
+        <ion-select
+          formControlName="role"
+          multiple="false"
+          placeholder="Seleccione el rol"
+        >
+          <ion-select-option
+            *ngFor="let role of rolesService.roles$ | async"
+            value="{{ role.name }}"
+            >{{ role.name }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-button
+        (click)="changeRole()"
+        style="margin-top: 1.25rem"
+        type="submit"
+        expand="block"
+        color="dark"
+      >
+        Guardar cambios
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
