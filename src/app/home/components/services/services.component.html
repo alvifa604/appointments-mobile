@@ -29,6 +29,14 @@
   ></app-create-service>
 
   <ion-list>
+    <ion-text
+      *ngIf="(medicalServicesS.services$ | async) !== undefined"
+      class="ion-text-center"
+      color="danger"
+    >
+      <h1 style="margin: 1.875rem 1.875rem">No hay servicios registrados</h1>
+    </ion-text>
+
     <ion-item *ngFor="let service of medicalServicesS.services$ | async">
       <ion-card style="width: 100%">
         <ion-card-header>
