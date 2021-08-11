@@ -48,9 +48,13 @@
             >
               {{ appointment.isCancelled ? "Sí" : "No" }}
             </ion-text></ion-label
-          ><ion-select placeholder="Seleccione" [(ngModel)]="cancel">
-            <ion-select-option value="true">Sí</ion-select-option>
-            <ion-select-option value="false">No</ion-select-option>
+          ><ion-select
+            value="{{ appointment.isCancelled }}"
+            placeholder="Seleccione"
+            [(ngModel)]="cancel"
+          >
+            <ion-select-option value="{{true}}">Sí</ion-select-option>
+            <ion-select-option value="{{false}}">No</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item *ngIf="(userService.user$ | async).role === 'doctor'">
@@ -61,9 +65,13 @@
             >
               {{ appointment.isCompleted ? "Sí" : "No" }}
             </ion-text></ion-label
-          ><ion-select placeholder="Seleccione" [(ngModel)]="complete">
-            <ion-select-option value="true">Sí</ion-select-option>
-            <ion-select-option value="false">No</ion-select-option>
+          ><ion-select
+            value="{{ appointment.isCompleted }}"
+            placeholder="Seleccione"
+            [(ngModel)]="complete"
+          >
+            <ion-select-option value="{{true}}">Sí</ion-select-option>
+            <ion-select-option value="{{false}}">No</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-button

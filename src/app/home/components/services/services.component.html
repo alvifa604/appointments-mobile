@@ -30,7 +30,7 @@
 
   <ion-list>
     <ion-text
-      *ngIf="(medicalServicesS.services$ | async) !== undefined"
+      *ngIf="(medicalServicesS.services$ | async).length === 0"
       class="ion-text-center"
       color="danger"
     >

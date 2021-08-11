@@ -49,8 +49,11 @@ export class ManageAppointmentModalComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const canceled = this.cancel === 'true' ? true : false;
-    const completed = this.complete === 'true' ? true : false;
+    let canceled = this.cancel === 'true' ? true : false;
+    let completed = this.complete === 'true' ? true : false;
+
+    if (this.cancel === undefined) canceled = this.appointment.isCancelled;
+    if (this.complete === undefined) completed = this.appointment.isCompleted;
 
     this.appointmentSubscription = this.appointmenstService
       .updateAppointment(this.appointment.id, canceled, completed)

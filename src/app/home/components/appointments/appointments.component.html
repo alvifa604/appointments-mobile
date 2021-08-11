@@ -15,8 +15,15 @@
   </ion-refresher>
 
   <ion-list>
-     <ion-text *ngIf="(appointments$ | async) && (userSerivce.user$ | async)" color="dark" class="ion-text-center">
-      <h1>Bienvenido, {{(userSerivce.user$ | async).name}} {{(userSerivce.user$ | async).firstLastname}}</h1>
+    <ion-text
+      *ngIf="(appointments$ | async) && (userSerivce.user$ | async)"
+      color="dark"
+      class="ion-text-center"
+    >
+      <h1>
+        Bienvenido, {{ (userSerivce.user$ | async).name }}
+        {{ (userSerivce.user$ | async).firstLastname }}
+      </h1>
     </ion-text>
 
     <ion-text
@@ -78,6 +85,10 @@
               </ion-text></ion-label
             >
             <ion-button
+              *ngIf="
+                !appointment.isCancelled ||
+                (userSerivce.user$ | async).role === 'doctor'
+              "
               color="dark"
               expand="block"
               fill="clear"

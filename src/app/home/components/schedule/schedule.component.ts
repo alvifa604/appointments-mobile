@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import {
-  ToastController,
-} from '@ionic/angular';
 import { Observable, Subscription, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UtilitiesServicesService } from 'src/app/shared/services/utilities-services.service';
@@ -37,7 +34,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private toastController: ToastController,
     private utilitiesService: UtilitiesServicesService,
     public medicalServicesS: MedicalServicesService,
     public fb: FormBuilder,
