@@ -36,5 +36,5 @@ La aplicación cuenta con un sistema sencillo de roles, donde existe el rol de p
       3. Explorar la aplicación en el emulador de Xcode.  
       
 Notas: 
-* Para poder explorar por completo la aplicación, se le debe asignar al primer usuario creado el rol de 'doctor' directamente en la base de datos.
+* Para poder explorar por completo la aplicación, se le debe asignar a un usuario el rol de 'doctor' directamente en la base de datos.
 * Para ejecutar la aplicación con las opciones 2 o 3, se necesita ngrok para que funcione adecuadamente, y las herramientas pertinentes (emuladores y Xcode en el caso de iOS).
