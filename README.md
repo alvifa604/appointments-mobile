@@ -37,4 +37,4 @@ La aplicación cuenta con un sistema sencillo de roles, donde existe el rol de p
       
 Notas: 
 * Para poder explorar por completo la aplicación, se le debe asignar a un usuario el rol de 'doctor' directamente en la base de datos.
-* Para ejecutar la aplicación con las opciones 2 o 3, se necesita ngrok para que funcione adecuadamente, y las herramientas pertinentes (emuladores y Xcode en el caso de iOS).
+* Para ejecutar la aplicación con las opciones 2 o 3, se necesita ngrok para que funcione adecuadamente, y las herramientas pertinentes (Android Studio para Android y Xcode para iOS).
